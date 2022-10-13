@@ -1,30 +1,24 @@
 import React, { Component } from "react"
 import { nanoid } from 'nanoid'
-// import Form from "./ContactForm/ContactForm"
 
-class App extends Component {
+class Form extends Component {
   state = {
-    contacts: [],
-    name: '',
-  }
-
+    name: ''
+  } 
   nameId = nanoid();
 
   handleChange = e => {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value });
-  }  
-
-  formSubmit = e => {
+  }
+  handleSubmit = e => {
     e.preventDefault();
     const { name } = this.state;
     const newContact = {
       id: nanoid(),
       name,
     }
-    this.setState((state) => ({
-      contacts: [newContact, ...state.contacts]
-    }))
+    this.props.onSubmit(newContact);
     this.reset();
   }
 
@@ -34,12 +28,10 @@ class App extends Component {
     })
   }
 
-  render() {
-    
+render(){
     return (
       <>
-        <h1>Phone book</h1>
-        <form onSubmit={this.formSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <label> Name
             <input
               type="text"
@@ -54,17 +46,9 @@ class App extends Component {
           </label>
           <button type="submit">Add contact</button>
         </form>
-        <h2>Contacts</h2>
-        <ul>
-          {this.state.contacts.map(contact => (
-            <li key = {contact.id}>
-              <p>{contact.name}</p>
-            </li>
-          ))}
-        </ul>
       </>
     )
   }
-};
+}
 
-export default App;
+export default Form;
