@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import Form from "./ContactForm/ContactForm"
+import AddContactForm from "./ContactForm/ContactForm"
 import { ContactList } from "./ContactList/ContactList"
-import {Filter} from "./Filter/Filter"
+import { Filter } from "./Filter/Filter"
+import {Container, Title, ContactsTitle} from './App.styled'
 
 class App extends Component {
 state = {
@@ -15,13 +16,20 @@ state = {
   }
   
   addContact = (newContact) => {
-    if (this.state.contacts.some(contact => contact.name === newContact.name)) {
+    const { contacts } = this.state;
+    if (contacts.some(contact => contact.name === newContact.name)) {
       return alert(`${newContact.name} is already in contacts`)
     } else {
       this.setState(prevState => {
         return { contacts: [newContact, ...prevState.contacts] }
       })
     }  
+  }
+
+  deleteContact = (id) => {
+    this.setState(prevState => {
+      return { contacts: prevState.contacts.filter(contact => contact.id !== id) }
+    })
   }
 
   filterContactChange = e => {
@@ -35,22 +43,23 @@ state = {
 
   render() {
     const { contacts, filter } = this.state;
-    const filtered = this.filterContact(contacts, filter);
+    const filteredContacts = this.filterContact(contacts, filter);
     return (
-      <>
-        <h1>Phone book</h1>
-          <Form onSubmit={this.addContact}/>
-        <h2>Contacts</h2>
+      <Container>
+        <Title>Phone book</Title>
+        <AddContactForm onSubmit={this.addContact}/>
+        <ContactsTitle>Contacts</ContactsTitle>
         <Filter
           value={filter}
           onChangeFilter={this.filterContactChange}
         />
         <ContactList
-          contacts={filtered}
+          contacts={filteredContacts}
+          deleteContact = {this.deleteContact}
         />
-      </>
+      </Container>
     )
-}  
+  }  
 }
 
 export default App;

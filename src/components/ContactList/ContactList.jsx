@@ -1,16 +1,19 @@
-import {ContactListItem} from "../ContactListItem/ContactListItem"
+import { ContactListItem } from "../ContactListItem/ContactListItem";
+import { List, ListItem } from './ContactList.styled';
 
-export const ContactList = ({ contacts }) => {
+export const ContactList = ({ contacts, deleteContact }) => {
   return (
-        <ul>
-          {contacts.map(({ id, name, number }) => (
-            <li key={id}>
-              <ContactListItem
-                name={name}
-                number={number}
-              />
-          </li>
-        ))}
-        </ul>
+    <List>
+      {contacts.map(({ id, name, number}) => (
+        <ListItem key={id}>
+          <ContactListItem
+            id={id}
+            name={name}
+            number={number}
+            deleteContact={deleteContact}
+          />
+        </ListItem>
+      ))}
+    </List>
   )
 }
