@@ -14,10 +14,14 @@ state = {
   filter: '',
   }
   
-  addContact = (contact) => {
-    this.setState(prevState => {
-      return { contacts: [contact, ...prevState.contacts] }
-    })  
+  addContact = (newContact) => {
+    if (this.state.contacts.some(contact => contact.name === newContact.name)) {
+      return alert(`${newContact.name} is already in contacts`)
+    } else {
+      this.setState(prevState => {
+        return { contacts: [newContact, ...prevState.contacts] }
+      })
+    }  
   }
 
   filterContactChange = e => {
@@ -32,7 +36,6 @@ state = {
   render() {
     const { contacts, filter } = this.state;
     const filtered = this.filterContact(contacts, filter);
-    console.log(filtered)
     return (
       <>
         <h1>Phone book</h1>
