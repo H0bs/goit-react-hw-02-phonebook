@@ -1,4 +1,5 @@
-import { FilterInput} from './Filter.styled'
+import PropTypes, { string } from 'prop-types';
+import { FilterInput } from './Filter.styled'
 
 export const Filter = ({filter, onChangeFilter}) => {
   return (
@@ -12,4 +13,9 @@ export const Filter = ({filter, onChangeFilter}) => {
       />
     </label>
   )
+}
+
+Filter.prototype = {
+  filter: string.array,
+  onChangeFilter: PropTypes.func,
 }
